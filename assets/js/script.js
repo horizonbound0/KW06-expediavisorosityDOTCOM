@@ -14,12 +14,13 @@ let weatherURL = ``;
 
 let lastSearch = ``;
 
+const searchBodyEl = $('#search-body');
 const searchFormEl = $('#search-form');
 const searchInputEl = $('#search');
 const resultsEl = $('#results');
 const searchHistoryEl = $('#search-history');
 
-// making a function to store an array into local storage
+// making a function to store an array of search history into local storage
 function setSearchHistory(someArray) {
     localStorage.setItem('results', JSON.stringify(someArray));
 }
@@ -67,7 +68,7 @@ function handleSearch(event) {
     }
 }
 
-searchFormEl.on('click', handleSearch);
+searchBodyEl.on('click', handleSearch);
 printSearchHistory();
 
 // function to populate the search history section
@@ -77,6 +78,7 @@ function printSearchHistory() {
     for (place of cityList) {
         
         const historyButton = $('<button>')
+            .addClass('btn btn-light my-1')
             .attr('data-type', 'history')
             .attr('data-name', place.name)
             .text(place.name);
@@ -89,7 +91,7 @@ function printSearchHistory() {
 function createResultsCard(city) {
 
     const cityCard = $('<div>')
-        .addClass('card my-3')
+        .addClass('card')
         .attr('data-city', city.name);
 
     const cityName = $('<h2>')
@@ -131,9 +133,33 @@ function getWeatherAPI() {
         })
         .then(function (data) {
 
-            console.log(data);
+            console.log(data.list[0].dt_txt);
 
-            
+            for (prop of data.list) {
+                let citys = getSearchHistory();
+
+                for (city of citys) {
+                    if (city.name === data.city.name) {
+                        
+                        city.temp = data.list[0].main.temp;
+                        city.wind = data.list[0].wind.speed;
+                        city.humid = data.list[0].main.humidity;
+
+                    }
+                    
+                }
+
+                /** 
+                for (city of citys) {
+                    if (city.name === )
+                    city.temp = prop.main.temp;
+                    console.log(city.temp);
+
+                }
+                */
+                setSearchHistory(citys);
+            }
+
         })
 }
 
@@ -153,7 +179,8 @@ function getLocationAPI() {
                 let searchResult = {
                     name: '',
                     lat: '',
-                    lon: ''
+                    lon: '', 
+                    temp: ''
                 }
 
                 // get the locations array
