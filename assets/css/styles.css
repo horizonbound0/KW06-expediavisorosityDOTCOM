@@ -2,6 +2,12 @@
     margin: 5px;
 }
 
+.header {
+    background: linear-gradient(to right, blue, indigo);
+    color: blueviolet;
+    text-shadow: white 1px 0 3px;
+}
+
 #main {
     border: solid 1px black;
     display: flex;
@@ -12,11 +18,17 @@
     margin-right: 50px;
 }
 
-#search-form {
+#search-body {
     border: solid 1px black;
     display: flex;
     flex-direction: column;
     width: 25%;
+}
+
+#search-history {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
 }
 
 #results {

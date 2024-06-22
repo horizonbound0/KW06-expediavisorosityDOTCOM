@@ -28,36 +28,22 @@
     </header>
 
     <main id="main">
-        <div id="search-form">
-            <form action="">
+        <div id="search-body">
+            <form action="" id="search-form">
                 <label for="search">
                     <h2>Search for a City:</h2>
                 </label>
                 <input type="text" id="search" placeholder="City name...">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                    data-bs-target="#results-modal" data-search="search-button">Search</button>
+                <button data-type="search-button" type="button">Search</button>
             </form>
             <section id="search-history-card">
                 <h2>Search History</h2>
-                <div id=""></div>
-            </section>
-        </div>
+                <div id="history-body">
+                    <ul id="search-history">
 
-        <div class="modal fade" id="results-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <form id="modal-form" class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Location results:</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
+                    </ul>
+                </div>
+            </section>
         </div>
 
         <div id="results">
