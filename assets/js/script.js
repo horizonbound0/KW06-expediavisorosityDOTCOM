@@ -75,6 +75,7 @@ function printSearchHistory() {
     const cityList = getSearchHistory();
 
     for (place of cityList) {
+        
         const historyButton = $('<button>')
             .attr('data-type', 'history')
             .attr('data-name', place.name)
@@ -113,12 +114,26 @@ function createResultsCard(city) {
 }
 
 function getWeatherAPI() {
-    fetch()
+
+    const lastSearchedObject = JSON.parse(localStorage.getItem('last'));
+
+    console.log(`Last searched object lat and lon was: ${lastSearchedObject.lat} & ${lastSearchedObject.lon}`);
+
+    const weatherAPI = `http://api.openweathermap.org/data/2.5/forecast?lat=`;
+    const APIKey = `&appid=89c2d10cea5bf468636c45b15924d79d&units=imperial`;
+    weatherURL = `${weatherAPI}${lastSearchedObject.lat}&lon=${lastSearchedObject.lon}${APIKey}`;
+
+    console.log(weatherURL);
+
+    fetch(weatherURL)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
+
             console.log(data);
+
+            
         })
 }
 
@@ -163,7 +178,7 @@ function getLocationAPI() {
                 searchInputEl.val('');
                 printSearchHistory();
 
-                //getWeatherAPI();
+                getWeatherAPI();
 
             }
 
