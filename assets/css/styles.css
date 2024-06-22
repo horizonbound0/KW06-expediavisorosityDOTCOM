@@ -1,0 +1,34 @@
+* {
+    margin: 5px;
+}
+
+#main {
+    border: solid 1px black;
+    display: flex;
+}
+
+.title {
+    text-align: right;
+    margin-right: 50px;
+}
+
+#search-form {
+    border: solid 1px black;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+#results {
+    border: solid 1px black;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+#current-city-card {
+    border: solid 1px black;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
