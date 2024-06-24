@@ -20,7 +20,7 @@ const searchFormEl = $('#search-form');
 const searchInputEl = $('#search');
 const resultsEl = $('#results');
 const currentCityEl = $('#current-city-card');
-const fiveDayEl = $('#5-day-card');
+const fiveDayEl = $('#five-day-card');
 const searchHistoryEl = $('#search-history');
 
 // making a function to store an array of search history into local storage
@@ -58,6 +58,8 @@ function handleSearch(event) {
 
         locationURL = `${apiURL}${userSearchVal}${apiKey}`;
 
+        console.log(`locationURL: ${locationURL}`);
+
         getLocationAPI();
 
     } else if (targetSearch === 'history') {
@@ -65,7 +67,7 @@ function handleSearch(event) {
         let userSearchVal = target.dataset.name;
 
         locationURL = `${apiURL}${userSearchVal}${apiKey}`;
-
+        
         getLocationAPI();
 
     }
@@ -84,7 +86,7 @@ function printSearchHistory() {
     for (place of cityList) {
 
         const historyButton = $('<button>')
-            .addClass('btn btn-light my-1')
+            .addClass('btn btn-dark my-1')
             .attr('data-type', 'history')
             .attr('data-name', place.name)
             .text(place.name);
@@ -94,34 +96,34 @@ function printSearchHistory() {
 }
 
 // create a function to make a card for each result
-function createResultsCard(city) {
+function createResultsCard(city, time, temp, wind, humid, weather) {
 
     const cityCard = $('<div>')
-        .addClass('card')
+        .addClass('card bg-primary bg-gradient border border-primary border-3')
         .attr('data-city', city.name);
 
     const cityName = $('<h2>')
-        .addClass('card-title h2 city-title')
+        .addClass(`card-title h2 city-title ${weather}`)
         .text(city.name);
 
     const cityTime = $('<p>')
         .addClass('card-text')
-        .text(city.time);
+        .text(time);
 
     const cityBody = $('<div>')
         .addClass('card-body');
 
-    const cityTemp = $('<h3>')
+    const cityTemp = $('<h4>')
         .addClass('card-text')
-        .text(`Temp: ${city.temp}`);
+        .text(`Temp: ${temp}`);
 
     const cityWind = $('<h4>')
         .addClass('card-text')
-        .text(`Wind: ${city.wind}`);
+        .text(`Wind: ${wind}`);
 
     const cityHumid = $('<h4>')
         .addClass('card-text')
-        .text(`Humidity: ${city.humid}`);
+        .text(`Humidity: ${humid}`);
 
     cityBody.append([cityTemp, cityWind, cityHumid]);
     cityCard.append([cityName, cityTime, cityBody]);
@@ -129,21 +131,26 @@ function createResultsCard(city) {
     return cityCard;
 }
 
-// function to check if a location is already in the array -------------------cityInArray(city);
-function cityInArray(name) {
+// function to check if a location is already in the array
+function cityArrayCleanup(name) {
 
     const results = getSearchHistory();
-}
 
-// fetch function for five day forecast
+    for (let i = 0; i < results.length; ++i) {
+        if (name === results[i].name) {
+            results.splice(i, 1);
+        }
+    }
+
+    setSearchHistory(results);
+
+}
 
 
 // fetch function for current weather conditions of searched location
-function getRecentWeatherAPI() {
+function getWeatherAPI() {
 
     const lastSearchedObject = JSON.parse(localStorage.getItem('last'));
-
-    console.log(`Last searched object lat and lon was: ${lastSearchedObject.lat} & ${lastSearchedObject.lon}`);
 
     const weatherAPI = `http://api.openweathermap.org/data/2.5/forecast?lat=`;
 
@@ -159,94 +166,88 @@ function getRecentWeatherAPI() {
         })
         .then(function (data) {
 
+
             for (prop of data.list) {
+
+
                 let citys = getSearchHistory();
 
-                for (city of citys) {
+                let city = citys[citys.length-1];
+                city.temp = data.list[0].main.temp;
+                city.wind = data.list[0].wind.speed;
+                city.humid = data.list[0].main.humidity;
+                city.time = dayjs(data.list[0].dt_txt).format('MM/DD/YYYY');
+                city.weather = data.list[0].weather[0].main;
 
-                    if (city.name === data.city.name) {
-
-
-                        city.temp = data.list[0].main.temp;
-                        city.wind = data.list[0].wind.speed;
-                        city.humid = data.list[0].main.humidity;
-                        city.time = dayjs(data.list[0].dt_txt).toString();
-
-                        //clear current city element
-                        currentCityEl.empty();
-                        currentCityEl.append(createResultsCard(city));
-                    }
-
-                }
-                setSearchHistory(citys);
+                //clear current city element
+                currentCityEl.empty();
+                currentCityEl.append(createResultsCard(city, city.time, city.temp, city.wind, city.humid, city.weather));
             }
-
         })
 
-        fetch(weatherFiveURL)
+    fetch(weatherFiveURL)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log('this is the 5 day vvv');
-            console.log(data);
 
             for (prop of data.list) {
                 let citys = getSearchHistory();
 
-                for (city of citys) {
+                let city = citys[citys.length-1];
+                
+                city.temp1 = data.list[7].main.temp;
+                city.temp2 = data.list[15].main.temp;
+                city.temp3 = data.list[23].main.temp;
+                city.temp4 = data.list[31].main.temp;
+                city.temp5 = data.list[39].main.temp;
 
-                    if (city.name === data.city.name) {
+                city.wind1 = data.list[7].wind.speed;
+                city.wind2 = data.list[15].wind.speed;
+                city.wind3 = data.list[23].wind.speed;
+                city.wind4 = data.list[31].wind.speed;
+                city.wind5 = data.list[39].wind.speed;
 
+                city.humid1 = data.list[7].main.humidity;
+                city.humid2 = data.list[15].main.humidity;
+                city.humid3 = data.list[23].main.humidity;
+                city.humid4 = data.list[31].main.humidity;
+                city.humid5 = data.list[39].main.humidity;
 
-                        city.temp1 = data.list[7].main.temp;
-                        city.temp2 = data.list[15].main.temp;
-                        city.temp3 = data.list[23].main.temp;
-                        city.temp4 = data.list[31].main.temp;
-                        city.temp5 = data.list[39].main.temp;
+                city.time1 = dayjs(data.list[7].dt_txt).format('MM/DD/YYYY');
+                city.time2 = dayjs(data.list[15].dt_txt).format('MM/DD/YYYY');
+                city.time3 = dayjs(data.list[23].dt_txt).format('MM/DD/YYYY');
+                city.time4 = dayjs(data.list[31].dt_txt).format('MM/DD/YYYY');
+                city.time5 = dayjs(data.list[39].dt_txt).format('MM/DD/YYYY');
 
-                        city.wind1 = data.list[7].wind.speed;
-                        city.wind2 = data.list[15].wind.speed;
-                        city.wind3 = data.list[23].wind.speed;
-                        city.wind4 = data.list[31].wind.speed;
-                        city.wind5 = data.list[39].wind.speed;
+                city.weather1 = data.list[7].weather[0].main;
+                city.weather2 = data.list[15].weather[0].main;
+                city.weather3 = data.list[23].weather[0].main;
+                city.weather4 = data.list[31].weather[0].main;
+                city.weather5 = data.list[39].weather[0].main;
 
-                        city.humid1 = data.list[7].main.humidity;
-                        city.humid2 = data.list[15].main.humidity;
-                        city.humid3 = data.list[23].main.humidity;
-                        city.humid4 = data.list[31].main.humidity;
-                        city.humid5 = data.list[39].main.humidity;
-
-                        city.time1 = dayjs(data.list[7].dt_txt).toString();
-                        city.time2 = dayjs(data.list[15].dt_txt).toString();
-                        city.time3 = dayjs(data.list[23].dt_txt).toString();
-                        city.time4 = dayjs(data.list[31].dt_txt).toString();
-                        city.time5 = dayjs(data.list[39].dt_txt).toString();
-
-                        //clear current city element
-                        //fiveDayEl.empty();
-                        //fiveDayEl.append(createResultsCard(city));
-                    }
-
-                }
-                setSearchHistory(citys);
+                //clear five-day city element
+                fiveDayEl.empty();
+                fiveDayEl.append(createResultsCard(city, city.time1, city.temp1, city.wind1, city.humid1, city.weather1));
+                fiveDayEl.append(createResultsCard(city, city.time2, city.temp2, city.wind2, city.humid2, city.weather2));
+                fiveDayEl.append(createResultsCard(city, city.time3, city.temp3, city.wind3, city.humid3, city.weather3));
+                fiveDayEl.append(createResultsCard(city, city.time4, city.temp4, city.wind4, city.humid4, city.weather4));
+                fiveDayEl.append(createResultsCard(city, city.time5, city.temp5, city.wind5, city.humid5, city.weather5));
             }
-
         })
 }
 
 // fetch function to grab the location, store it locally, and call the weather APIs.
 function getLocationAPI() {
-
     fetch(locationURL)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
 
-            console.log(data);
-
             for (let location of data) {
+
+                cityArrayCleanup(location.name);
 
                 // declaring the location object
                 let searchResult = {
@@ -267,7 +268,6 @@ function getLocationAPI() {
 
                 localStorage.setItem('last', JSON.stringify(lastSearch));
 
-                //cityInArray(searchResult);
 
                 results.push(searchResult);
 
@@ -277,7 +277,7 @@ function getLocationAPI() {
 
                 printSearchHistory();
 
-                getRecentWeatherAPI();
+                getWeatherAPI();
 
             }
 

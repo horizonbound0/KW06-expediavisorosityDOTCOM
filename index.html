@@ -20,21 +20,21 @@
     <title>Home</title>
 </head>
 
-<body>
+<body class="bg-secondary bg-gradient">
     <header class="header">
 
         <h1 class="title">Weather Dashboard</h1>
 
     </header>
 
-    <main id="main">
-        <div id="search-body">
+    <main id="main" class="border border-primary border-5">
+        <div id="search-body" class="border border-dark">
             <form action="" id="search-form">
                 <label for="search">
                     <h2>Search for a City:</h2>
                 </label>
                 <input type="text" id="search" placeholder="City name...">
-                <button class="btn btn-secondary" data-type="search-button" type="button">Search</button>
+                <button class="btn btn-dark" data-type="search-button" type="button">Search</button>
             </form>
             <section id="search-history-card">
                 <h2>Search History</h2>
@@ -46,14 +46,14 @@
             </section>
         </div>
 
-        <div id="results">
+        <div id="results" class="border border border-info">
             
             <div id="current-city-card">
             </div>
             
                 <h2>5-day Forecast</h2>
             
-            <div id="5-day-card">
+            <div id="five-day-card">
                 <!-- 
                 <div class="day-card"></div>
                 <div class="day-card"></div>
