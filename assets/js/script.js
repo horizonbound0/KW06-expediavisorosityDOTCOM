@@ -49,7 +49,7 @@ function handleSearch(event) {
     const target = event.target;
     const targetSearch = target.dataset.type;
 
-    const apiURL = 'http://api.openweathermap.org/geo/1.0/direct?q=';
+    const apiURL = 'https://api.openweathermap.org/geo/1.0/direct?q=';
     const apiKey = '&limit=1&appid=89c2d10cea5bf468636c45b15924d79d';
 
     if (targetSearch === 'search-button') {
@@ -152,7 +152,7 @@ function getWeatherAPI() {
 
     const lastSearchedObject = JSON.parse(localStorage.getItem('last'));
 
-    const weatherAPI = `http://api.openweathermap.org/data/2.5/forecast?lat=`;
+    const weatherAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=`;
 
     const currentAPIKey = `&cnt=1&appid=89c2d10cea5bf468636c45b15924d79d&units=imperial`;
     const fiveAPIKey = `&appid=89c2d10cea5bf468636c45b15924d79d&units=imperial`;
