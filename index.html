@@ -20,60 +20,47 @@
     <title>Home</title>
 </head>
 
-<body>
+<body class="bg-secondary bg-gradient">
     <header class="header">
 
         <h1 class="title">Weather Dashboard</h1>
 
     </header>
 
-    <main id="main">
-        <div id="search-form">
-            <form action="">
+    <main id="main" class="border border-primary border-5">
+        <div id="search-body" class="border border-dark">
+            <form action="" id="search-form">
                 <label for="search">
                     <h2>Search for a City:</h2>
                 </label>
                 <input type="text" id="search" placeholder="City name...">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                    data-bs-target="#results-modal" data-search="search-button">Search</button>
+                <button class="btn btn-dark" data-type="search-button" type="button">Search</button>
             </form>
             <section id="search-history-card">
                 <h2>Search History</h2>
-                <div id=""></div>
+                <div id="history-body">
+                    <ul id="search-history">
+
+                    </ul>
+                </div>
             </section>
         </div>
 
-        <div class="modal fade" id="results-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <form id="modal-form" class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Location results:</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div id="results">
+        <div id="results" class="border border border-info">
+            
             <div id="current-city-card">
-                <h2 id="current-name"></h2>
-                <p id="current-temp"></p>
-                <p id="current-wind"></p>
-                <p id="current-humid"></p>
             </div>
-            <div id="5-day-card">
+            
                 <h2>5-day Forecast</h2>
+            
+            <div id="five-day-card">
+                <!-- 
                 <div class="day-card"></div>
                 <div class="day-card"></div>
                 <div class="day-card"></div>
                 <div class="day-card"></div>
                 <div class="day-card"></div>
+                -->
             </div>
         </div>
 

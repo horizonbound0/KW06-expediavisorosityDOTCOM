@@ -1,9 +1,14 @@
+:root {
+    --main-clear: '🌞';
+    --main-rain: '💧';
+    --main-cloud: '⛅';
+}
+
 * {
     margin: 5px;
 }
 
 #main {
-    border: solid 1px black;
     display: flex;
 }
 
@@ -12,23 +17,40 @@
     margin-right: 50px;
 }
 
-#search-form {
-    border: solid 1px black;
+#search-body {
     display: flex;
     flex-direction: column;
     width: 25%;
 }
 
+#search-history {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
 #results {
-    border: solid 1px black;
     display: flex;
     flex-direction: column;
     width: 70%;
 }
 
 #current-city-card {
-    border: solid 1px black;
     display: flex;
     flex-direction: column;
     width: 70%;
+}
+
+#five-day-card {
+    display: flex;
+}
+
+.Clouds::after {
+    content: var(--main-cloud);
+}
+.Clear::after {
+    content: var(--main-clear);
+}
+.Rain::after {
+    content: var(--main-rain);
 }
