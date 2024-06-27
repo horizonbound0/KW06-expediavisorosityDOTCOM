@@ -8,6 +8,11 @@
     margin: 5px;
 }
 
+.light-gray {
+    background: #F0F0F0;
+    color: #333333;
+}
+
 #main {
     display: flex;
 }
@@ -38,11 +43,11 @@
 #current-city-card {
     display: flex;
     flex-direction: column;
-    width: 70%;
 }
 
 #five-day-card {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .Clouds::after {
